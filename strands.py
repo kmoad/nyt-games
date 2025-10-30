@@ -18,16 +18,6 @@ class StrandsPuzzle():
             grid.append([_ for _ in line.strip()])
         return cls(grid)
     
-    @classmethod
-    def today(cls):
-        r = requests.get('https://www.nytimes.com/svc/strands/v2/2025-10-30.json')
-        r.raise_for_status()
-        grid = [list(_) for _ in r.json()['startingBoard']]
-        return cls(grid)
-    
-    def save(self):
-        pass
-
     def _get_neighbor_coordinates(self, coord: tuple[int,int]) -> list[tuple[int,int]]:
         """
         Get coordinates of grid positions around the current one (adjacent or diagonal)
@@ -144,10 +134,7 @@ if __name__ == '__main__':
     words = list(filter(lambda _: len(_) > 3, all_words))
     pt = PrefixTree(words)
 
-    if args.puzzle:
-        puzzle = StrandsPuzzle.from_file(args.puzzle)
-    else:
-        puzzle = StrandsPuzzle.today()
+    puzzle = StrandsPuzzle.from_file(args.puzzle)
     
     solutions = puzzle.solve(pt)
 
