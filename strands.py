@@ -85,9 +85,7 @@ class StrandsPuzzle():
                 solutions[word].append(chain)
         return solutions
 
-def save_todays_puzzle(out_path: Path):
-    today = datetime.datetime.today()
-    date_str = today.strftime(r'%Y-%m-%d')
+def save_puzzle(date_str: str, out_path: Path):
     print(date_str)
     url = f'https://www.nytimes.com/svc/strands/v2/{date_str}.json'
     r = requests.get(url)
@@ -100,17 +98,25 @@ if __name__ == '__main__':
     from argparse import ArgumentParser
 
     word_list_dir = Path('lists')
+    today = datetime.datetime.today()
+    today_str = today.strftime(r'%Y-%m-%d')
 
     parser = ArgumentParser(
         description = 'Solve NYT Strands puzzles'
     )
     parser.add_argument('--puzzle',
         type = Path,
+        default = Path('puzzle.txt'),
         help = 'Path to puzzle file',
     )
-    parser.add_argument('--save-today',
-        type = Path,
-        help = 'Fetch today\'s puzzle and save to file',    
+    parser.add_argument('--save',
+        action = 'store_true',
+        help = 'Fetch a puzzle by date and save to puzzzle.txt',    
+    )
+    parser.add_argument('--date',
+        type = str,
+        default = today_str,
+        help = 'Use with --save to save a specific date',    
     )
     parser.add_argument('--words',
         type = Path,
@@ -125,8 +131,8 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
 
-    if args.save_today:
-        save_todays_puzzle(args.save_today)
+    if args.save:
+        save_puzzle(args.date, args.puzzle)
         exit()
 
     all_words = [l.strip().upper() for l in args.words.open()]
