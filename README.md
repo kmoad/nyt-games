@@ -57,3 +57,19 @@ options:
 
 See `ex-strands-puzzle.txt` for formatting. Use upper-case to show letters that
 haven't been used yet and lower-case for letters that have been used.
+
+## [Spelling Bee](https://www.nytimes.com/puzzles/spelling-bee)
+
+```
+usage: spelling-bee.py [-h] [--words WORDS] [--show SHOW]
+                       center periphery
+
+positional arguments:
+  center
+  periphery
+
+options:
+  -h, --help     show this help message and exit
+  --words WORDS  File containing words
+  --show SHOW    Number of valid words to show
+```
